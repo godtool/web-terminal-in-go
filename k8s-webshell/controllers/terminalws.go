@@ -65,26 +65,54 @@ func buildConfigFromContextFlags(context, kubeconfigPath string) (*rest.Config, 
 		}).ClientConfig()
 }
 
+func getKubeConfig(region string) (*rest.Config, *kubernetes.Clientset, error)  {
+	redisUrl := os.Getenv("redis_url")
+	if len(redisUrl) == 0 {
+		return nil,nil, errors.New("cannot found redis_url")
+	}
+	log.Println(redisUrl)
+	conn, err := redis.DialURL(redisUrl)
+	if err != nil {
+		// handle connection error
+		log.Println(err)
+		time.Sleep(3 * time.Second)
+	}
+	defer conn.Close()
+	data, err := conn.Do("hget", "cluster_kubeconfig", region)
+	log.Println(region)
+
+	if err != nil {
+		return nil,nil, err
+	}
+	config, err := clientcmd.RESTConfigFromKubeConfig([]byte(data.([]byte)))
+	clientset, err := kubernetes.NewForConfig(config)
+	return config, clientset, err
+}
+
 // 处理输入输出与sockjs 交互
 func Handler(t *TerminalSockjs, cmd string) error {
-	config, err := buildConfigFromContextFlags(t.context, beego.AppConfig.String("kubeconfig"))
-	if err != nil {
-		return err
-	}
-	groupversion := schema.GroupVersion{
-		Group:   "",
-		Version: "v1",
-	}
-	config.GroupVersion = &groupversion
-	config.APIPath = "/api"
-	config.ContentType = runtime.ContentTypeJSON
-	config.NegotiatedSerializer = serializer.DirectCodecFactory{CodecFactory: scheme.Codecs}
-	restclient, err := rest.RESTClientFor(config)
+// 	config, err := buildConfigFromContextFlags(t.context, beego.AppConfig.String("kubeconfig"))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	groupversion := schema.GroupVersion{
+// 		Group:   "",
+// 		Version: "v1",
+// 	}
+// 	config.GroupVersion = &groupversion
+// 	config.APIPath = "/api"
+// 	config.ContentType = runtime.ContentTypeJSON
+// 	config.NegotiatedSerializer = serializer.DirectCodecFactory{CodecFactory: scheme.Codecs}
+// 	restclient, err := rest.RESTClientFor(config)
+// 	if err != nil {
+// 		return err
+// 	}
+	config, clientset ,err := getKubeConfig(t.context)
 	if err != nil {
 		return err
 	}
 	fn := func() error {
-		req := restclient.Post().
+		req := clientset.CoreV1().RESTClient().Post().
 			Resource("pods").
 			Name(t.pod).
 			Namespace(t.namespace).
