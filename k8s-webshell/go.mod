@@ -17,29 +17,31 @@ require (
 	github.com/docker/docker v1.13.1
 	github.com/docker/spdystream v0.0.0-20181023171402-6480d4af844c // indirect
 	github.com/elazarl/goproxy v0.0.0-20181111060418-2ce16c963a8a // indirect
-	github.com/google/gofuzz v0.0.0-20170612174753-24818f796faf // indirect
+	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/googleapis/gnostic v0.4.1 // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
+	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/igm/sockjs-go v2.0.0+incompatible // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
-	github.com/json-iterator/go v1.1.5 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.1 // indirect
-	github.com/onsi/ginkgo v1.8.0 // indirect
-	github.com/onsi/gomega v1.4.3 // indirect
 	github.com/sirupsen/logrus v1.3.0 // indirect
-	github.com/spf13/pflag v1.0.3 // indirect
-	github.com/stretchr/testify v1.3.0 // indirect
-	golang.org/x/oauth2 v0.0.0-20190226205417-e64efc72b421 // indirect
-	golang.org/x/sys v0.0.0-20190310054646-10058d7d4faa // indirect
-	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
 	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
 	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect
 	gopkg.in/igm/sockjs-go.v2 v2.0.0
-	gopkg.in/inf.v0 v0.9.1 // indirect
-	k8s.io/api v0.0.0-20190308234726-55d5be855ee3
-	k8s.io/apimachinery v0.0.0-20190309062729-b6b933fb33e6
-	k8s.io/client-go v10.0.0+incompatible
-	k8s.io/klog v0.2.0 // indirect
+	k8s.io/api v0.17.3
+	k8s.io/apimachinery v0.17.3
+	k8s.io/client-go v11.0.0+incompatible
 	k8s.io/kubernetes v1.13.4
-	sigs.k8s.io/yaml v1.1.0 // indirect
+	k8s.io/utils v0.0.0-20200229041039-0a110f9eb7ab // indirect
+)
+
+replace (
+	k8s.io/api => k8s.io/api v0.0.0-20191109101513-0171b7c15da1
+	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20191004105649-b14e3c49469a
+	k8s.io/apimachinery => k8s.io/apimachinery v0.0.0-20191111054156-6eb29fdf75dc
+	k8s.io/cli-runtime => k8s.io/cli-runtime v0.0.0-20191111063502-aa6580445795
+	k8s.io/client-go => k8s.io/client-go v0.0.0-20191111061043-a56922badea0
+	k8s.io/code-generator => k8s.io/code-generator v0.0.0-20191109100332-a9a0d9c0b3aa
+	k8s.io/component-base => k8s.io/component-base v0.0.0-20191111061729-cca8f4f7ce4d
+	k8s.io/metrics => k8s.io/metrics v0.0.0-20191109111301-80b462294217
+	sigs.k8s.io/controller-runtime => sigs.k8s.io/controller-runtime v0.3.0
 )
